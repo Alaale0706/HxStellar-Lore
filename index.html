@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>华熊星语探索</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8ecae6',
+                        secondary: '#219ebc',
+                        dark: '#0a192f',
+                        space: '#0f172a',
+                        light: '#f1faee',
+                        accent: '#64ffda',
+                        success: '#2dd4bf',
+                        error: '#ef4444',
+                        neon: '#00f5d4',
+                        panda_black: '#000000',
+                        panda_white: '#ffffff',
+                        bamboo: '#4CAF50'
+                    },
+                    fontFamily: {
+                        sans: ['"LXGW WenKai"', 'KaiTi', 'sans-serif'],
+                        tech: ['"Orbitron"', 'sans-serif']
+                    },
+                    animation: {
+                        'float-slow': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'fade-in': 'fadeIn 0.5s ease-in-out forwards',
+                        'scale-in': 'scaleIn 0.3s ease-out forwards',
+                        'scan': 'scan 8s linear infinite',
+                        'orbit': 'orbit 20s linear infinite',
+                        'bamboo-sway': 'bambooSway 3s ease-in-out infinite alternate'
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { 'text-shadow': '0 0 5px #fff, 0 0 10px #64ffda, 0 0 15px #219ebc' },
+                            '100%': { 'text-shadow': '0 0 10px #fff, 0 0 20px #64ffda, 0 0 30px #219ebc' }
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' }
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.9)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' }
+                        },
+                        scan: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' }
+                        },
+                        orbit: {
+                            '0%': { transform: 'rotate(0deg) translateX(100px) rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg) translateX(100px) rotate(-360deg)' }
+                        },
+                        bambooSway: {
+                            '0%': { transform: 'rotate(-5deg)' },
+                            '100%': { transform: 'rotate(5deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            @font-face {
+                font-family: 'Orbitron';
+                font-style: normal;
+                font-weight: 400;
+                src: url(https://fonts.gstatic.com/s/orbitron/v25/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyxSmxpmIyXjU1pg.woff2) format('woff2');
+            }
+            @font-face {
+                font-family: 'LXGW WenKai';
+                font-style: normal;
+                font-weight: 400;
+                src: url(https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css) format('woff2');
+            }
+        }
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-flip {
+                perspective: 1000px;
+            }
+            .card-inner {
+                transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                transform-style: preserve-3d;
+            }
+            .card-flipped .card-inner {
+                transform: rotateY(180deg);
+            }
+            .card-front, .card-back {
+                backface-visibility: hidden;
+            }
+            .card-back {
+                transform: rotateY(180deg);
+            }
+            .bg-glass {
+                background: rgba(10, 25, 47, 0.7);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                border: 1px solid rgba(100, 255, 218, 0.2);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .animate-float {
+                animation: float 3s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+                100% { transform: translateY(0px); }
+            }
+            .scale-hover {
+                transition: transform 0.3s ease;
+            }
+            .scale-hover:hover {
+                transform: scale(1.05);
+            }
+            .glass-effect {
+                background: rgba(10, 25, 47, 0.6);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(100, 255, 218, 0.2);
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            }
+            .gradient-border {
+                position: relative;
+                border-radius: 0.75rem;
+            }
+            .gradient-border::before {
+                content: "";
+                position: absolute;
+                inset: -2px;
+                z-index: -1;
+                border-radius: 0.85rem;
+                background: linear-gradient(45deg, #8ecae6, #219ebc, #0a192f);
+                animation: rotate 6s linear infinite;
+            }
+            @keyframes rotate {
+                0% { filter: hue-rotate(0deg); }
+                100% { filter: hue-rotate(360deg); }
+            }
+            .option-hover {
+                transition: all 0.3s ease;
+            }
+            .option-hover:hover {
+                transform: translateX(8px);
+                text-shadow: 0 0 10px rgba(100, 255, 218, 0.7);
+            }
+            .neon-button {
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s ease;
+                background: rgba(10, 25, 47, 0.6);
+                border: 1px solid rgba(100, 255, 218, 0.5);
+                box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+            }
+            .neon-button:hover {
+                box-shadow: 0 0 15px rgba(100, 255, 218, 0.7),
+                            0 0 25px rgba(100, 255, 218, 0.5),
+                            0 0 35px rgba(100, 255, 218, 0.3);
+            }
+            .neon-button::before {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                z-index: -1;
+                background: linear-gradient(
+                    120deg,
+                    #8ecae6,
+                    #219ebc,
+                    #0a192f,
+                    #8ecae6
+                );
+                background-size: 300% 300%;
+                animation: borderGradient 5s ease infinite;
+            }
+            @keyframes borderGradient {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+            .save-animation {
+                animation: savePulse 1s ease;
+            }
+            @keyframes savePulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(100, 255, 218, 0.8); }
+                100% { transform: scale(1); }
+            }
+            .toast {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                left: 20px;
+                background: rgba(10, 25, 47, 0.9);
+                color: #64ffda;
+                padding: 12px 20px;
+                border-radius: 8px;
+                border: 1px solid rgba(100, 255, 218, 0.3);
+                box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+                z-index: 1000;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease-out;
+                text-align: center;
+            }
+            .toast.show {
+                transform: translateY(0);
+            }
+            .tech-grid {
+                background-image: 
+                    linear-gradient(rgba(100, 255, 218, 0.1) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(100, 255, 218, 0.1) 1px, transparent 1px);
+                background-size: 30px 30px;
+            }
+            .scan-line {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: linear-gradient(to bottom, rgba(100, 255, 218, 0), rgba(100, 255, 218, 0.7), rgba(100, 255, 218, 0));
+                animation: scan 8s linear infinite;
+                z-index: 10;
+            }
+            .tech-border {
+                border: 1px solid rgba(100, 255, 218, 0.5);
+                box-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+            }
+            .panda-head {
+                position: relative;
+                width: 80px;
+                height: 80px;
+                background: radial-gradient(circle at 30% 30%, #fff 15%, transparent 15%),
+                            radial-gradient(circle at 70% 30%, #fff 15%, transparent 15%),
+                            radial-gradient(circle at 30% 65%, #fff 25%, transparent 25%),
+                            radial-gradient(circle at 70% 65%, #fff 25%, transparent 25%),
+                            radial-gradient(circle at 50% 50%, #000 30%, transparent 30%);
+                border-radius: 50%;
+                box-shadow: 0 0 20px rgba(100, 255, 218, 0.7);
+                z-index: 5;
+            }
+            .panda-face {
+                position: relative;
+                width: 70px;
+                height: 70px;
+                background-color: white;
+                border-radius: 50%;
+                border: 2px solid #000;
+            }
+            .panda-eye {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                background-color: #000;
+                border-radius: 50%;
+                top: 25px;
+            }
+            .panda-eye.left {
+                left: 15px;
+            }
+            .panda-eye.right {
+                right: 15px;
+            }
+            .panda-eye-inner {
+                position: absolute;
+                width: 6px;
+                height: 6px;
+                background-color: #fff;
+                border-radius: 50%;
+                top: 3px;
+                left: 3px;
+            }
+            .panda-nose {
+                position: absolute;
+                width: 12px;
+                height: 8px;
+                background-color: #000;
+                border-radius: 40% 40% 50% 50%;
+                top: 45px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .panda-mouth {
+                position: absolute;
+                width: 20px;
+                height: 8px;
+                border-bottom: 2px solid #000;
+                border-radius: 0 0 50% 50%;
+                top: 55px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .panda-ear {
+                position: absolute;
+                width: 25px;
+                height: 25px;
+                background-color: #000;
+                border-radius: 50%;
+                top: -5px;
+                z-index: -1;
+            }
+            .panda-ear.left {
+                left: -5px;
+            }
+            .panda-ear.right {
+                right: -5px;
+            }
+            .bamboo {
+                position: absolute;
+                width: 8px;
+                height: 100px;
+                background: repeating-linear-gradient(
+                    to bottom,
+                    #4CAF50,
+                    #4CAF50 10px,
+                    #8BC34A 10px,
+                    #8BC34A 20px
+                );
+                border-radius: 4px;
+                bottom: 0;
+                left: 50%;
+                transform-origin: bottom center;
+            }
+            .bamboo-leaf {
+                position: absolute;
+                width: 30px;
+                height: 8px;
+                background-color: #4CAF50;
+                border-radius: 0 8px 8px 0;
+                transform-origin: left center;
+            }
+            .mobile-tap-highlight:active {
+                transform: scale(0.95);
+                opacity: 0.9;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-space to-dark min-h-screen flex flex-col items-center justify-start p-3 font-sans text-light overflow-x-hidden tech-grid">
+    <!-- 科技感背景 - 移动端简化 -->
+    <div class="fixed inset-0 -z-20">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-space/90 to-dark/90"></div>
+        <div class="scan-line"></div>
+        
+        <!-- 熊猫轨道元素 - 移动端简化 -->
+        <div class="absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60">
+            <div class="animate-orbit" style="animation-delay: -0s;">
+                <div class="panda-face mx-auto">
+                    <div class="panda-ear left"></div>
+                    <div class="panda-ear right"></div>
+                    <div class="panda-eye left">
+                        <div class="panda-eye-inner"></div>
+                    </div>
+                    <div class="panda-eye right">
+                        <div class="panda-eye-inner"></div>
+                    </div>
+                    <div class="panda-nose"></div>
+                    <div class="panda-mouth"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 背景装饰 - 移动端简化 -->
+        <div class="absolute top-10 left-10 w-30 h-30 bg-accent/10 rounded-full filter blur-xl animate-pulse-slow"></div>
+        <div class="absolute bottom-20 right-10 w-40 h-40 bg-secondary/10 rounded-full filter blur-xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+    </div>
+    
+    <!-- 标题区域 - 移动端堆叠布局 -->
+    <div class="text-center mb-4 mt-2 w-full">
+        <div class="flex flex-col items-center">
+            <div class="panda-face mb-3">
+                <div class="panda-ear left"></div>
+                <div class="panda-ear right"></div>
+                <div class="panda-eye left">
+                    <div class="panda-eye-inner"></div>
+                </div>
+                <div class="panda-eye right">
+                    <div class="panda-eye-inner"></div>
+                </div>
+                <div class="panda-nose"></div>
+                <div class="panda-mouth"></div>
+            </div>
+            <div>
+                <h1 class="text-3xl font-tech text-accent mb-1 animate-glow">
+                    华熊星语探索
+                </h1>
+                <p class="text-base text-light/80">解开元素背后的宇宙密码</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 诗意提示区 -->
+    <div id="poemHint" class="text-center mb-4 max-w-full w-full px-2">
+        <p id="currentHint" class="text-base glass-effect p-3 rounded-xl border border-accent/30">
+            点击<span class="text-accent font-bold">"时空解封"</span>开始探索元素奥秘
+        </p>
+    </div>
+    
+    <!-- 卡片区域 - 移动端尺寸优化 -->
+    <div class="oracle card-flip w-[92vw] max-w-md h-[65vh] mb-4 relative">
+        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-space/80 to-dark/80 border border-accent/30 shadow-[0_0_15px_rgba(100,255,218,0.3)]"></div>
+        
+        <!-- 加载遮罩 -->
+        <div id="loadingOverlay" class="absolute inset-0 bg-space/90 rounded-2xl flex items-center justify-center z-10 hidden">
+            <div class="flex flex-col items-center">
+                <div class="w-12 h-12 border-4 border-accent/30 border-t-accent rounded-full animate-spin mb-4"></div>
+                <p class="text-lg text-accent font-tech">元素解密中...</p>
+                <div class="mt-2 flex space-x-2">
+                    <div class="w-2 h-2 bg-accent rounded-full animate-bounce" style="animation-delay: 0s"></div>
+                    <div class="w-2 h-2 bg-accent rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                    <div class="w-2 h-2 bg-accent rounded-full animate-bounce" style="animation-delay: 0.4s"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card-inner relative w-full h-full">
+            <!-- 卡片正面 -->
+            <div class="card-front absolute w-full h-full bg-glass rounded-2xl flex flex-col items-center justify-center p-4">
+                <div class="mb-4 relative">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-accent to-secondary flex items-center justify-center">
+                        <i class="fa fa-question-circle text-4xl text-dark"></i>
+                    </div>
+                    <div class="absolute -bottom-1 -right-1 w-8 h-8 bg-dark rounded-full flex items-center justify-center border-2 border-accent">
+                        <div class="panda-face" style="width: 22px; height: 22px;">
+                            <div class="panda-ear left" style="width: 8px; height: 8px;"></div>
+                            <div class="panda-ear right" style="width: 8px; height: 8px;"></div>
+                            <div class="panda-eye left" style="width: 5px; height: 5px; top: 7px; left: 3px;">
+                                <div class="panda-eye-inner" style="width: 2px; height: 2px;"></div>
+                            </div>
+                            <div class="panda-eye right" style="width: 5px; height: 5px; top: 7px; right: 3px;">
+                                <div class="panda-eye-inner" style="width: 2px; height: 2px;"></div>
+                            </div>
+                            <div class="panda-nose" style="width: 4px; height: 3px; top: 12px;"></div>
+                            <div class="panda-mouth" style="width: 6px; height: 2px; top: 15px;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 id="questionText" class="text-xl text-center text-light font-bold mb-4 px-2">触碰今日元素</h2>
+                <div id="answerOptions" class="mt-2 w-full glass-effect p-3 rounded-xl space-y-2 border border-accent/20 max-h-[30vh] overflow-y-auto">
+                    <!-- 选项将动态生成 -->
+                </div>
+            </div>
+            
+            <!-- 卡片背面 -->
+            <div class="card-back absolute w-full h-full bg-white rounded-2xl overflow-hidden cursor-pointer">
+                <div class="absolute inset-0 bg-gradient-to-br from-space/20 to-dark/20 z-10"></div>
+                <img id="elementImg" class="w-full h-full object-cover" src="" alt="元素图片">
+                <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-space/90 to-transparent p-4 z-20">
+                    <div class="flex items-center">
+                        <div class="panda-face mr-2" style="width: 30px; height: 30px;">
+                            <div class="panda-ear left" style="width: 10px; height: 10px;"></div>
+                            <div class="panda-ear right" style="width: 10px; height: 10px;"></div>
+                            <div class="panda-eye left" style="width: 7px; height: 7px; top: 10px; left: 5px;">
+                                <div class="panda-eye-inner" style="width: 3px; height: 3px;"></div>
+                            </div>
+                            <div class="panda-eye right" style="width: 7px; height: 7px; top: 10px; right: 5px;">
+                                <div class="panda-eye-inner" style="width: 3px; height: 3px;"></div>
+                            </div>
+                            <div class="panda-nose" style="width: 6px; height: 4px; top: 18px;"></div>
+                            <div class="panda-mouth" style="width: 10px; height: 4px; top: 22px;"></div>
+                        </div>
+                        <div>
+                            <h3 id="elementName" class="text-xl font-bold text-light">元素名称</h3>
+                            <p id="elementPoem" class="text-base text-light/90">元素诗句</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute top-3 right-3 bg-dark/70 rounded-full p-1 z-20">
+                    <div class="panda-face" style="width: 22px; height: 22px;">
+                        <div class="panda-ear left" style="width: 8px; height: 8px;"></div>
+                        <div class="panda-ear right" style="width: 8px; height: 8px;"></div>
+                        <div class="panda-eye left" style="width: 5px; height: 5px; top: 7px; left: 3px;">
+                            <div class="panda-eye-inner" style="width: 2px; height: 2px;"></div>
+                        </div>
+                        <div class="panda-eye right" style="width: 5px; height: 5px; top: 7px; right: 3px;">
+                            <div class="panda-eye-inner" style="width: 2px; height: 2px;"></div>
+                        </div>
+                        <div class="panda-nose" style="width: 4px; height: 3px; top: 12px;"></div>
+                        <div class="panda-mouth" style="width: 6px; height: 2px; top: 15px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 控制按钮 - 移动端垂直排列 -->
+    <div class="flex flex-col gap-3 w-full max-w-md mb-4 px-2">
+        <button id="revealBtn" class="px-6 py-3 bg-transparent neon-button text-accent rounded-full flex items-center justify-center scale-hover cursor-pointer mobile-tap-highlight">
+            <i class="fa fa-magic mr-2"></i> <span id="revealBtnText" class="font-tech">时空解封</span>
+        </button>
+        <button id="saveBtn" class="px-6 py-3 bg-transparent neon-button text-light rounded-full flex items-center justify-center opacity-50 scale-hover cursor-not-allowed mobile-tap-highlight" disabled>
+            <i class="fa fa-download mr-2"></i> <span class="font-tech">保存印记</span>
+        </button>
+    </div>
+    
+    <!-- 元素记录区 -->
+    <div id="elementLog" class="mt-4 w-full max-w-md glass-effect rounded-xl p-3 border border-accent/30 mx-2">
+        <div class="flex items-center mb-3">
+            <div class="panda-face mr-2" style="width: 24px; height: 24px;">
+                <div class="panda-ear left" style="width: 8px; height: 8px;"></div>
+                <div class="panda-ear right" style="width: 8px; height: 8px;"></div>
+                <div class="panda-eye left" style="width: 5px; height: 5px; top: 7px; left: 3px;">
+                    <div class="panda-eye-inner" style="width: 2px; height: 2px;"></div>
+                </div>
+                <div class="panda-eye right" style="width: 5px; height: 5px; top: 7px; right: 3px;">
+                    <div class="panda-eye-inner" style="width: 2px; height: 2px;"></div>
+                </div>
+                <div class="panda-nose" style="width: 4px; height: 3px; top: 12px;"></div>
+                <div class="panda-mouth" style="width: 6px; height: 2px; top: 15px;"></div>
+            </div>
+            <h3 class="text-lg text-accent text-center font-tech flex-1">已解锁元素</h3>
+            <div class="panda-face ml-2" style="width: 24px; height: 24px;">
+                <div class="panda-ear left" style="width: 8px; height: 8px;"></div>
+                <div class="panda-ear right" style="width: 8px; height: 8px;"></div>
+                <div class="panda-eye left" style="width: 5px; height: 5px; top: 7px; left: 3px;">
+                    <div class="panda-eye-inner" style="width: 2px; height: 2px;"></div>
+                </div>
+                <div class="panda-eye right" style="width: 5px; height: 5px; top: 7px; right: 3px;">
+                    <div class="panda-eye-inner" style="width: 2px; height: 2px;"></div>
+                </div>
+                <div class="panda-nose" style="width: 4px; height: 3px; top: 12px;"></div>
+                <div class="panda-mouth" style="width: 6px; height: 2px; top: 15px;"></div>
+            </div>
+        </div>
+        <div id="unlockedElements" class="grid grid-cols-4 gap-2">
+            <!-- 解锁的元素会动态添加到这里 -->
+        </div>
+    </div>
+    
+    <!-- 图片查看器 - 移动端全屏优化 -->
+    <div id="imageViewer" class="fixed inset-0 bg-space/95 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="absolute inset-0 cursor-zoom-out" id="viewerOverlay"></div>
+        <div class="relative w-full h-full mx-0 overflow-hidden glass-effect border border-accent/30">
+            <div class="scan-line"></div>
+            <div class="absolute top-3 right-3 z-20">
+                <button id="closeViewerBtn" class="w-8 h-8 rounded-full bg-dark/70 flex items-center justify-center text-accent hover:bg-accent/20 transition-all border border-accent/30 mobile-tap-highlight">
+                    <i class="fa fa-times text-sm"></i>
+                </button>
+            </div>
+            <div class="absolute top-3 left-3 z-20 flex gap-2">
+                <button id="saveViewerBtn" class="px-3 py-1 bg-accent/10 text-accent rounded-full flex items-center justify-center hover:bg-accent/20 transition-all border border-accent/30 text-sm mobile-tap-highlight">
+                    <i class="fa fa-download mr-1"></i> 保存
+                </button>
+                <button id="backViewerBtn" class="px-3 py-1 bg-dark/70 text-light rounded-full flex items-center justify-center hover:bg-accent/20 transition-all border border-accent/30 text-sm mobile-tap-highlight">
+                    <i class="fa fa-arrow-left mr-1"></i> 返回
+                </button>
+            </div>
+            <img id="viewerImage" class="w-full h-full object-contain" src="" alt="大图预览">
+            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-space/90 to-transparent p-4 z-10">
+                <div class="flex items-center">
+                    <div class="panda-face mr-2" style="width: 30px; height: 30px;">
+                        <div class="panda-ear left" style="width: 10px; height: 10px;"></div>
+                        <div class="panda-ear right" style="width: 10px; height: 10px;"></div>
+                        <div class="panda-eye left" style="width: 7px; height: 7px; top: 10px; left: 5px;">
+                            <div class="panda-eye-inner" style="width: 3px; height: 3px;"></div>
+                        </div>
+                        <div class="panda-eye right" style="width: 7px; height: 7px; top: 10px; right: 5px;">
+                            <div class="panda-eye-inner" style="width: 3px; height: 3px;"></div>
+                        </div>
+                        <div class="panda-nose" style="width: 6px; height: 4px; top: 18px;"></div>
+                        <div class="panda-mouth" style="width: 10px; height: 4px; top: 22px;"></div>
+                    </div>
+                    <div>
+                        <h3 id="viewerName" class="text-xl font-bold text-light">元素名称</h3>
+                        <p id="viewerPoem" class="text-base text-light/90">元素诗句</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 保存状态提示 - 移动端居中 -->
+    <div id="saveToast" class="toast">
+        <div class="flex items-center justify-center">
+            <i class="fa fa-check-circle mr-2 text-lg text-accent"></i>
+            <span id="toastMessage" class="text-sm">图片已在新窗口打开，请右键保存</span>
+        </div>
+    </div>
+    
+    <!-- 底部熊猫足迹 -->
+    <div class="mt-4 flex space-x-2">
+        <div class="panda-footprint"></div>
+        <div class="panda-footprint"></div>
+        <div class="panda-footprint"></div>
+    </div>
+
+<script>
+// 优化后的元素数据集
+const elements = [
+    { 
+        name: "卷纸", 
+        img: "https://img.picui.cn/free/2025/05/28/683728cd37b35.jpg",
+        poem: "素雪千叠绕玉轴",
+        question: "以下哪句诗最能体现卷纸的形态？",
+        options: [
+            "A. 飞流直下三千尺，疑是银河落九天",
+            "B. 千淘万漉虽辛苦，吹尽狂沙始到金",
+            "C. 春潮带雨晚来急，野渡无人舟自横",
+            "D. 欲穷千里目，更上一层楼"
+        ],
+        answer: "A"
+    },
+    { 
+        name: "云朵", 
+        img: "https://img.picui.cn/free/2025/05/28/683728cb8bfed.jpg",
+        poem: "碧落无痕自在游",
+        question: "以下哪句诗描绘了云朵的动态之美？",
+        options: [
+            "A. 行到水穷处，坐看云起时",
+            "B. 曾经沧海难为水，除却巫山不是云",
+            "C. 云想衣裳花想容，春风拂槛露华浓",
+            "D. 晴空一鹤排云上，便引诗情到碧霄"
+        ],
+        answer: "A"
+    },
+    { 
+        name: "绿植", 
+        img: "https://img.picui.cn/free/2025/05/28/683728cd236c7.jpg",
+        poem: "绿意凝香自盎然",
+        question: "绿植在古诗中常象征什么？",
+        options: [
+            "A. 深沉内敛的智慧",
+            "B. 生机勃勃的生命力",
+            "C. 纯净无瑕的心灵",
+            "D. 热情奔放的情感"
+        ],
+        answer: "B"
+    },
+    { 
+        name: "茶杯", 
+        img: "https://img.picui.cn/free/2025/05/28/683728cd01691.jpg",
+        poem: "半盏沉浮品春秋",
+        question: "以下哪句诗适合形容品茶的意境？",
+        options: [
+            "A. 举杯邀明月，对影成三人",
+            "B. 寒夜客来茶当酒，竹炉汤沸火初红",
+            "C. 葡萄美酒夜光杯，欲饮琵琶马上催",
+            "D. 绿蚁新醅酒，红泥小火炉"
+        ],
+        answer: "B"
+    },
+    { 
+        name: "星空", 
+        img: "https://img.picui.cn/free/2025/05/28/683728cc6b633.jpg",
+        poem: "星河万点映心扉",
+        question: "以下哪句诗是描写星空的经典？",
+        options: [
+            "A. 床前明月光，疑是地上霜",
+            "B. 醉后不知天在水，满船清梦压星河",
+            "C. 月落乌啼霜满天，江枫渔火对愁眠",
+            "D. 月黑雁飞高，单于夜遁逃"
+        ],
+        answer: "B"
+    },
+    { 
+        name: "野花", 
+        img: "https://img.picui.cn/free/2025/05/28/683728d16742f.jpg",
+        poem: "野径无人独自开",
+        question: "野花在古诗中常出现在怎样的环境中？",
+        options: [
+            "A. 乱花渐欲迷人眼，浅草才能没马蹄",
+            "B. 待到山花烂漫时，她在丛中笑",
+            "C. 接天莲叶无穷碧，映日荷花别样红",
+            "D. 梅须逊雪三分白，雪却输梅一段香"
+        ],
+        answer: "A"
+    },
+    { 
+        name: "雨滴", 
+        img: "https://img.picui.cn/free/2025/05/28/683728d1ea2ea.jpg",
+        poem: "天街小雨润如酥",
+        question: "以下哪句诗描写了雨声的意境？",
+        options: [
+            "A. 君问归期未有期，巴山夜雨涨秋池",
+            "B. 两个黄鹂鸣翠柳，一行白鹭上青天",
+            "C. 停车坐爱枫林晚，霜叶红于二月花",
+            "D. 孤帆远影碧空尽，唯见长江天际流"
+        ],
+        answer: "A"
+    },
+    { 
+        name: "钟摆", 
+        img: "https://img.picui.cn/free/2025/05/28/683728d26e063.jpg",
+        poem: "时光往复自悠悠",
+        question: "以下哪句诗与时间的流逝相关？",
+        options: [
+            "A. 少壮不努力，老大徒伤悲",
+            "B. 白日依山尽，黄河入海流",
+            "C. 不识庐山真面目，只缘身在此山中",
+            "D. 春眠不觉晓，处处闻啼鸟"
+        ],
+        answer: "A"
+    },
+    { 
+        name: "小夜灯", 
+        img: "https://img.picui.cn/free/2025/05/28/683728d27d890.jpg",
+        poem: "微光伴读夜阑珊",
+        question: "以下哪句诗描写了夜晚的灯光？",
+        options: [
+            "A. 何当共剪西窗烛，却话巴山夜雨时",
+            "B. 大漠沙如雪，燕山月似钩",
+            "C. 千里黄云白日曛，北风吹雁雪纷纷",
+            "D. 日照香炉生紫烟，遥看瀑布挂前川"
+        ],
+        answer: "A"
+    },
+    { 
+        name: "鸟巢", 
+        img: "https://img.picui.cn/free/2025/05/28/683728d6a4ba0.jpg",
+        poem: "枝间筑梦暖如家",
+        question: "以下哪句诗描写了鸟巢的意象？",
+        options: [
+            "A. 几处早莺争暖树，谁家新燕啄春泥",
+            "B. 故人西辞黄鹤楼，烟花三月下扬州",
+            "C. 孤帆远影碧空尽，唯见长江天际流",
+            "D. 两个黄鹂鸣翠柳，一行白鹭上青天"
+        ],
+        answer: "A"
+    },
+    { 
+        name: "书本", 
+        img: "https://img.picui.cn/free/2025/05/28/683728d70261a.jpg",
+        poem: "墨香深处见乾坤",
+        question: "以下哪句诗是描写读书的？",
+        options: [
+            "A. 书中自有黄金屋，书中自有颜如玉",
+            "B. 飞流直下三千尺，疑是银河落九天",
+            "C. 黄河远上白云间，一片孤城万仞山",
+            "D. 欲穷千里目，更上一层楼"
+        ],
+        answer: "A"
+    },
+    { 
+        name: "风筝", 
+        img: "https://img.picui.cn/free/2025/05/28/683728d7f2bc7.jpg",
+        poem: "一线牵云入碧空",
+        question: "以下哪句诗描写了放风筝的场景？",
+        options: [
+            "A. 儿童散学归来早，忙趁东风放纸鸢",
+            "B. 小荷才露尖尖角，早有蜻蜓立上头",
+            "C. 竹外桃花三两枝，春江水暖鸭先知",
+            "D. 草长莺飞二月天，拂堤杨柳醉春烟"
+        ],
+        answer: "A"
+    }
+];
+
+// 已解锁的元素记录
+let unlockedElements = [];
+// 当前选中的元素索引
+let currentElementIndex = null;
+// 是否正在等待用户回答问题
+let waitingForAnswer = false;
+// 当前选中的答案
+let selectedAnswer = null;
+// 当前查看的元素索引
+let currentViewingElementIndex = null;
+
+// 显示加载遮罩
+function showLoading() {
+    document.getElementById('loadingOverlay').classList.remove('hidden');
+}
+
+// 隐藏加载遮罩
+function hideLoading() {
+    document.getElementById('loadingOverlay').classList.add('hidden');
+}
+
+// 显示提示信息
+function showToast(message) {
+    const toast = document.getElementById('saveToast');
+    const toastMessage = document.getElementById('toastMessage');
+    toastMessage.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
+// 显示随机元素的问题
+function revealElement() {
+    const card = document.querySelector('.card-inner');
+    const revealBtn = document.getElementById('revealBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    
+    // 如果已经有元素显示，先翻回正面
+    if (currentElementIndex !== null) {
+        card.classList.remove('card-flipped');
+        setTimeout(() => {
+            // 生成一个未解锁的随机元素
+            showLoading();
+            setTimeout(() => {
+                generateNewElement();
+                hideLoading();
+            }, 600);
+        }, 400);
+    } else {
+        // 直接生成新元素
+        showLoading();
+        setTimeout(() => {
+            generateNewElement();
+            hideLoading();
+        }, 600);
+    }
+    
+    // 更新按钮状态
+    document.getElementById('revealBtnText').textContent = '解密中...';
+    revealBtn.disabled = true;
+    saveBtn.disabled = true;
+    saveBtn.classList.add('opacity-50');
+}
+
+// 生成新元素问题
+function generateNewElement() {
+    // 筛选出未解锁的元素
+    const lockedElements = elements.filter(el => !unlockedElements.includes(el.name));
+    
+    // 如果所有元素都已解锁，则重置
+    if (lockedElements.length === 0) {
+        unlockedElements = [];
+        document.getElementById('unlockedElements').innerHTML = '';
+        document.getElementById('currentHint').textContent = '所有元素已解锁，重新开始探索';
+    }
+    
+    // 随机选择一个未解锁的元素
+    const randomIndex = Math.floor(Math.random() * lockedElements.length);
+    currentElementIndex = elements.findIndex(el => el.name === lockedElements[randomIndex].name);
+    
+    // 更新问题
+    document.getElementById('questionText').textContent = elements[currentElementIndex].question;
+    
+    // 更新选项（使用按钮替代纯文本）
+    const optionsContainer = document.getElementById('answerOptions');
+    optionsContainer.innerHTML = '';
+    
+    elements[currentElementIndex].options.forEach(option => {
+        const optionBtn = document.createElement('button');
+        optionBtn.className = 'w-full text-left p-2 rounded-lg option-hover text-light border-l-4 border-transparent hover:border-accent text-sm mobile-tap-highlight';
+        optionBtn.innerHTML = `<span class="inline-block w-6 text-accent font-bold">${option.charAt(0)}</span> ${option.substring(2)}`;
+        optionBtn.dataset.option = option.charAt(0);
+        
+        optionBtn.addEventListener('click', () => {
+            // 移除其他选项的选中状态
+            document.querySelectorAll('#answerOptions button').forEach(btn => {
+                btn.classList.remove('bg-accent/20', 'border-accent');
+            });
+            
+            // 添加当前选项的选中状态
+            optionBtn.classList.add('bg-accent/20', 'border-accent');
+            
+            // 保存选中的答案
+            selectedAnswer = option.charAt(0);
+        });
+        
+        optionsContainer.appendChild(optionBtn);
+    });
+    
+    // 更新提示
+    document.getElementById('currentHint').textContent = '请选择正确答案';
+    document.getElementById('currentHint').classList.add('border-accent');
+    
+    // 启用等待答案状态
+    waitingForAnswer = true;
+    
+    // 更新按钮
+    document.getElementById('revealBtnText').textContent = '确认答案';
+    document.getElementById('revealBtn').disabled = false;
+}
+
+// 检查用户答案
+function checkAnswer() {
+    if (!waitingForAnswer || !selectedAnswer) return;
+    
+    const correctAnswer = elements[currentElementIndex].answer;
+    
+    // 禁用选项按钮
+    document.querySelectorAll('#answerOptions button').forEach(btn => {
+        btn.disabled = true;
+        
+        // 高亮正确答案
+        if (btn.dataset.option === correctAnswer) {
+            btn.classList.add('bg-success/20', 'border-success');
+        }
+        
+        // 如果用户选择错误，高亮错误答案
+        if (btn.dataset.option === selectedAnswer && selectedAnswer !== correctAnswer) {
+            btn.classList.add('bg-error/20', 'border-error');
+        }
+    });
+    
+    if (selectedAnswer === correctAnswer) {
+        // 答案正确，显示元素
+        document.getElementById('currentHint').textContent = '恭喜！答案正确！';
+        document.getElementById('currentHint').classList.add('text-accent');
+        
+        // 设置图片前先显示加载状态
+        document.getElementById('elementImg').src = "";
+        document.getElementById('elementImg').src = elements[currentElementIndex].img;
+        
+        // 图片加载完成后再翻牌
+        const img = new Image();
+        img.onload = function() {
+            document.getElementById('elementName').textContent = elements[currentElementIndex].name;
+            document.getElementById('elementPoem').textContent = elements[currentElementIndex].poem;
+            
+            // 翻牌
+            const card = document.querySelector('.card-inner');
+            card.classList.add('card-flipped');
+            
+            // 记录解锁的元素
+            if (!unlockedElements.includes(elements[currentElementIndex].name)) {
+                unlockedElements.push(elements[currentElementIndex].name);
+                addElementToLog(elements[currentElementIndex]);
+            }
+            
+            // 更新按钮状态
+            document.getElementById('revealBtnText').textContent = '下一个';
+            document.getElementById('revealBtn').disabled = false;
+            
+            const saveBtn = document.getElementById('saveBtn');
+            saveBtn.disabled = false;
+            saveBtn.classList.remove('opacity-50');
+            
+            // 重置状态
+            waitingForAnswer = false;
+            selectedAnswer = null;
+        };
+        img.onerror = function() {
+            document.getElementById('currentHint').textContent = '图片加载失败，请重试';
+            document.getElementById('elementImg').src = "https://picsum.photos/400/600?random=error"; // 错误占位图
+            waitingForAnswer = false;
+        };
+        img.src = elements[currentElementIndex].img;
+        
+    } else {
+        // 答案错误
+        document.getElementById('currentHint').textContent = `回答错误！正确答案是：${correctAnswer}`;
+        document.getElementById('currentHint').classList.add('text-error');
+        
+        // 2秒后允许重新选择
+        setTimeout(() => {
+            document.getElementById('currentHint').textContent = '请重新选择答案';
+            document.getElementById('currentHint').classList.remove('text-error');
+            document.getElementById('currentHint').classList.add('text-light');
+            
+            // 重置选项状态
+            document.querySelectorAll('#answerOptions button').forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('bg-success/20', 'border-success', 'bg-error/20', 'border-error');
+            });
+            
+            selectedAnswer = null;
+        }, 3000);
+    }
+}
+
+// 添加元素到记录区
+function addElementToLog(element) {
+    const container = document.getElementById('unlockedElements');
+    const elementBox = document.createElement('div');
+    elementBox.className = 'relative group scale-hover cursor-pointer mobile-tap-highlight';
+    elementBox.innerHTML = `
+        <div class="relative">
+            <img src="${element.img}" alt="${element.name}" class="w-full h-auto rounded-md border border-accent/50">
+            <div class="absolute top-0.5 right-0.5 w-4 h-4 bg-accent rounded-full flex items-center justify-center">
+                <div class="panda-face" style="width: 12px; height: 12px;">
+                    <div class="panda-ear left" style="width: 4px; height: 4px;"></div>
+                    <div class="panda-ear right" style="width: 4px; height: 4px;"></div>
+                    <div class="panda-eye left" style="width: 2px; height: 2px; top: 3px; left: 1px;">
+                        <div class="panda-eye-inner" style="width: 1px; height: 1px;"></div>
+                    </div>
+                    <div class="panda-eye right" style="width: 2px; height: 2px; top: 3px; right: 1px;">
+                        <div class="panda-eye-inner" style="width: 1px; height: 1px;"></div>
+                    </div>
+                    <div class="panda-nose" style="width: 2px; height: 1px; top: 5px;"></div>
+                    <div class="panda-mouth" style="width: 3px; height: 1px; top: 6px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 bg-space/80 text-[10px] text-center p-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+            ${element.name}
+        </div>
+    `;
+    elementBox.addEventListener('click', () => {
+        const elementIndex = elements.findIndex(el => el.name === element.name);
+        openImageViewer(elementIndex);
+    });
+    container.appendChild(elementBox);
+    
+    // 添加解锁动画
+    elementBox.style.opacity = "0";
+    elementBox.style.transform = "scale(0.8)";
+    setTimeout(() => {
+        elementBox.style.transition = "all 0.3s ease";
+        elementBox.style.opacity = "1";
+        elementBox.style.transform = "scale(1)";
+    }, 10);
+}
+
+// 打开图片查看器
+function openImageViewer(elementIndex = currentElementIndex) {
+    if (elementIndex === null) return;
+    
+    currentViewingElementIndex = elementIndex;
+    const element = elements[elementIndex];
+    
+    // 设置查看器内容
+    document.getElementById('viewerImage').src = element.img;
+    document.getElementById('viewerName').textContent = element.name;
+    document.getElementById('viewerPoem').textContent = element.poem;
+    
+    // 显示查看器
+    const viewer = document.getElementById('imageViewer');
+    viewer.style.opacity = "1";
+    viewer.style.pointerEvents = "auto";
+    
+    // 禁止背景滚动
+    document.body.style.overflow = 'hidden';
+}
+
+// 关闭图片查看器
+function closeImageViewer() {
+    const viewer = document.getElementById('imageViewer');
+    viewer.style.opacity = "0";
+    viewer.style.pointerEvents = "none";
+    document.body.style.overflow = ''; // 恢复滚动
+}
+
+// 保存当前查看的图片
+function saveCurrentImage(event) {
+    // 阻止事件冒泡，确保不会触发图片查看器的关闭
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    
+    if (currentViewingElementIndex === null) return;
+    
+    const element = elements[currentViewingElementIndex];
+    
+    // 在新标签页打开图片
+    window.open(element.img, '_blank');
+    
+    // 显示提示
+    showToast('图片已在新窗口打开，请长按保存');
+}
+
+// 保存完整的元素卡片
+function saveCardImage(event) {
+    // 阻止事件冒泡
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    
+    if (currentElementIndex === null) return;
+    
+    const element = elements[currentElementIndex];
+    
+    // 在新标签页打开图片
+    window.open(element.img, '_blank');
+    
+    // 显示提示
+    showToast('图片已在新窗口打开，请长按保存');
+}
+
+// 预加载所有图片
+elements.forEach(element => {
+    const img = new Image();
+    img.src = element.img;
+});
+
+// 绑定事件
+document.addEventListener('DOMContentLoaded', function() {
+    // 主按钮事件
+    document.getElementById('revealBtn').addEventListener('click', () => {
+        if (waitingForAnswer) {
+            checkAnswer();
+        } else {
+            revealElement();
+        }
+    });
+    
+    // 保存按钮事件
+    document.getElementById('saveBtn').addEventListener('click', saveCardImage);
+    document.getElementById('saveViewerBtn').addEventListener('click', saveCurrentImage);
+    
+    // 关闭图片查看器事件
+    document.getElementById('closeViewerBtn').addEventListener('click', closeImageViewer);
+    document.getElementById('viewerOverlay').addEventListener('click', closeImageViewer);
+    document.getElementById('backViewerBtn').addEventListener('click', closeImageViewer);
+    
+    // 卡片背面点击事件
+    document.querySelector('.card-back').addEventListener('click', openImageViewer);
+    
+    // 添加键盘快捷键支持
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.code === 'Enter') {
+            const revealBtn = document.getElementById('revealBtn');
+            if (!revealBtn.disabled) {
+                revealBtn.click();
+            }
+        }
+        
+        // ESC键关闭图片查看器
+        if (e.code === 'Escape' && document.getElementById('imageViewer').style.opacity === '1') {
+            closeImageViewer();
+        }
+    });
+    
+    // 添加触摸支持
+    document.getElementById('revealBtn').addEventListener('touchstart', (e) => {
+        e.stopPropagation();
+    });
+    
+    // 添加加载完成的动画效果
+    setTimeout(() => {
+        document.body.classList.add('loaded');
+    }, 300);
+    
+    // 创建熊猫足迹
+    const footprintContainer = document.querySelector('.mt-4');
+    for (let i = 0; i < 3; i++) {
+        const footprint = document.createElement('div');
+        footprint.className = 'panda-footprint';
+        footprint.innerHTML = `
+            <svg width="30" height="22" viewBox="0 0 40 30" class="opacity-60">
+                <path d="M20,5 Q25,0 30,5 Q35,10 30,15 Q25,20 20,15 Q15,20 10,15 Q5,10 10,5 Q15,0 20,5 Z" 
+                      fill="#000" stroke="#64ffda" stroke-width="0.5"/>
+                <circle cx="15" cy="10" r="1.5" fill="#64ffda"/>
+                <circle cx="25" cy="10" r="1.5" fill="#64ffda"/>
+            </svg>
+        `;
+        footprintContainer.appendChild(footprint);
+    }
+});
+</script>
+</body>
+</html>
